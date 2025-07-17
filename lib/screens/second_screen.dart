@@ -9,33 +9,71 @@ class SecondScreen extends StatelessWidget {
     final provider = Provider.of<UserProvider>(context);
     final name = provider.inputName;
     final selectedUser = provider.selectedUser;
+    final selectedName = selectedUser != null
+        ? "${selectedUser.firstName} ${selectedUser.lastName}"
+        : "-";
 
     return Scaffold(
-      appBar: AppBar(title: Text('Welcome')),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text('Welcome', style: TextStyle(fontSize: 24)),
-            SizedBox(height: 10),
-            Text('Name: $name', style: TextStyle(fontSize: 18)),
-            SizedBox(height: 10),
-            Text(
-              'Selected User: ${selectedUser != null ? selectedUser.firstName + " " + selectedUser.lastName : "-"}',
-              style: TextStyle(fontSize: 18),
+      body: Container(
+        padding: const EdgeInsets.all(24),
+        decoration: const BoxDecoration(
+          gradient: LinearGradient(
+            colors: [Color(0xFFc9ffbf), Color(0xFFffafbd)],
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+          ),
+        ),
+        child: Center(
+          child: SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                const Text(
+                  'Welcome',
+                  style: TextStyle(fontSize: 32, fontWeight: FontWeight.bold, color: Colors.black87),
+                ),
+                const SizedBox(height: 32),
+                Container(
+                  width: double.infinity,
+                  padding: const EdgeInsets.all(16),
+                  decoration: BoxDecoration(
+                    color: Colors.white.withOpacity(0.9),
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'Name:',
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                      Text(name ?? '-', style: TextStyle(fontSize: 18)),
+                      const SizedBox(height: 16),
+                      Text(
+                        'Selected User:',
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                      Text(selectedName, style: TextStyle(fontSize: 18)),
+                    ],
+                  ),
+                ),
+                const SizedBox(height: 24),
+                ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    minimumSize: const Size.fromHeight(50),
+                    backgroundColor: Colors.deepPurple,
+                  ),
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (_) => ThirdScreen()),
+                    );
+                  },
+                  child: const Text('CHOOSE A USER'),
+                ),
+              ],
             ),
-            SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (_) => ThirdScreen()),
-                );
-              },
-              child: Text('Choose a User'),
-            ),
-          ],
+          ),
         ),
       ),
     );
