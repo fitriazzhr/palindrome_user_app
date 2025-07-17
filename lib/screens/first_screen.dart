@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'second_screen.dart';
 import '../providers/user_provider.dart';
+import 'second_screen.dart';
 
 class FirstScreen extends StatelessWidget {
   final TextEditingController nameController = TextEditingController();
@@ -15,45 +15,80 @@ class FirstScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Palindrome Checker')),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          children: [
-            TextField(
-              controller: nameController,
-              decoration: InputDecoration(labelText: 'Enter your name'),
-            ),
-            TextField(
-              controller: textController,
-              decoration: InputDecoration(labelText: 'Enter text'),
-            ),
-            SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: () {
-                final result = isPalindrome(textController.text);
-                showDialog(
-                  context: context,
-                  builder: (ctx) => AlertDialog(
-                    content: Text(result ? 'isPalindrome' : 'not palindrome'),
+      body: Container(
+        padding: const EdgeInsets.all(24),
+        decoration: const BoxDecoration(
+          gradient: LinearGradient(
+            colors: [Color(0xFF74ebd5), Color(0xFFACB6E5)],
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+          ),
+        ),
+        child: Center(
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+                const CircleAvatar(
+                  radius: 40,
+                  backgroundColor: Colors.white,
+                  child: Icon(Icons.person, color: Colors.blue, size: 40),
+                ),
+                const SizedBox(height: 32),
+                TextField(
+                  controller: nameController,
+                  decoration: InputDecoration(
+                    hintText: 'Name',
+                    filled: true,
+                    fillColor: Colors.white,
+                    border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
                   ),
-                );
-              },
-              child: Text('Check'),
+                ),
+                const SizedBox(height: 16),
+                TextField(
+                  controller: textController,
+                  decoration: InputDecoration(
+                    hintText: 'Palindrome',
+                    filled: true,
+                    fillColor: Colors.white,
+                    border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
+                  ),
+                ),
+                const SizedBox(height: 24),
+                ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    minimumSize: const Size.fromHeight(50),
+                    backgroundColor: Colors.blue,
+                  ),
+                  onPressed: () {
+                    final result = isPalindrome(textController.text);
+                    showDialog(
+                      context: context,
+                      builder: (ctx) => AlertDialog(
+                        content: Text(result ? 'isPalindrome' : 'not palindrome'),
+                      ),
+                    );
+                  },
+                  child: const Text('CHECK'),
+                ),
+                const SizedBox(height: 12),
+                ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    minimumSize: const Size.fromHeight(50),
+                    backgroundColor: Colors.deepPurple,
+                  ),
+                  onPressed: () {
+                    Provider.of<UserProvider>(context, listen: false)
+                        .setInputName(nameController.text);
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (_) => SecondScreen()),
+                    );
+                  },
+                  child: const Text('NEXT'),
+                ),
+              ],
             ),
-            SizedBox(height: 10),
-            ElevatedButton(
-              onPressed: () {
-                Provider.of<UserProvider>(context, listen: false)
-                    .setInputName(nameController.text);
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (_) => SecondScreen()),
-                );
-              },
-              child: Text('Next'),
-            ),
-          ],
+          ),
         ),
       ),
     );
