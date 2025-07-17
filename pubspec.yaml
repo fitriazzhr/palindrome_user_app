@@ -1,0 +1,19 @@
+name: palindrome_user_app
+description: A Flutter app with palindrome checker and user list.
+publish_to: 'none'
+
+environment:
+  sdk: ">=3.2.0 <4.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  provider: ^6.1.2
+  http: ^0.13.6
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+flutter:
+  uses-material-design: true
